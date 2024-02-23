@@ -105,17 +105,19 @@
 
                                 <a class="nav-link text-white {{ Route::currentRouteName() == 'admin.dashboard' ? 'bg-secondary' : '' }}"
                                     href="{{ route('admin.dashboard') }}">
-                                    <i class="fa-solid fa-teachometer-all fa-lg fa-fw">Dashboard</i>
+                                    <i class="fa-solid fa-tachograph-digital fa-lg fa-fw "> </i>
+                                    <span class="ms-2">Dashboard</span>
                                 </a>
                             </li>
                             <li class="nav-item">
 
                                 <a class="nav-link text-white {{ Route::currentRouteName() == 'admin.project.index' ? 'bg-secondary' : '' }}"
                                     href="{{ route('admin.project.index') }}">
-                                    <i class="fa-solid fa-newspaper fa-lg fa-fw">Posts</i>
+                                    <i class="fa-solid fa-newspaper fa-lg fa-fw"></i>
+                                    <span class="ms-2">Post</span>
                                 </a>
                             </li>
-                        </ul>
+                        </ul>w
                     </div>
                 </nav>
                 <main class="col-md-9 col-lg-10">

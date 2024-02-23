@@ -50,6 +50,10 @@
                                 <td>
                                     {{ $project->cover_image }}
                                 </td>
+                                <td>
+                                    <a href="{{ route('admin.project.show', ['project' => $project->id]) }}"
+                                        class="btn btn-sm btn-primary btn-square"><i class="fas fa-eye"></i></a>
+                                </td>
 
                             </tr>
                         @endforeach
