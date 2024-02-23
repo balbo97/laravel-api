@@ -102,14 +102,14 @@
                     <div class="position-sticky pt-3">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                {{ Route::currentRouteName() }}
+
                                 <a class="nav-link text-white {{ Route::currentRouteName() == 'admin.dashboard' ? 'bg-secondary' : '' }}"
                                     href="{{ route('admin.dashboard') }}">
                                     <i class="fa-solid fa-teachometer-all fa-lg fa-fw">Dashboard</i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                {{ Route::currentRouteName() }}
+
                                 <a class="nav-link text-white {{ Route::currentRouteName() == 'admin.project.index' ? 'bg-secondary' : '' }}"
                                     href="{{ route('admin.project.index') }}">
                                     <i class="fa-solid fa-newspaper fa-lg fa-fw">Posts</i>
