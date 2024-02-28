@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -28,7 +29,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view ('admin.project.create');
+        return view('admin.projects.create');
     }
 
     /**
@@ -39,7 +40,23 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        
+
+        // recupero i dati inviati dalla form
+        $form_data = $request->all();
+
+        // creo una nuova istanza del model Project
+        $project = new Car();
+
+        // riempio gli altri campi con la funzione fill()
+        $project->fill($form_data);
+
+        // salvo il record sul db
+        $project->save();
+
+        // effettuo il redirect alla view index
+        return redirect()->route('admin.projects.index');
+       
     }
 
     /**
@@ -61,7 +78,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('admin.projects.edit', compact('project'));
     }
 
     /**
@@ -73,7 +90,14 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        // recupero i dati inviati dalla form
+        $form_data = $request->all();
+
+        // riempio gli altri campi con la funzione fill()
+        $project->update($form_data);
+
+        // effettuo il redirect alla view index
+        return redirect()->route('admin.projects.index');
     }
 
     /**
@@ -84,6 +108,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project -> delete();
+        return redirect()->route('admin.projects.index');
     }
 }

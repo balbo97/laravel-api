@@ -11,7 +11,7 @@
                     </div>
                     <div>
 
-                        <a href="" class="btn btn-primary"> Add</a>
+                        <a href="{{ route('admin.project.create') }}" class="btn btn-primary"> Add</a>
                     </div>
                 </div>
             </div>
@@ -51,8 +51,23 @@
                                     {{ $project->cover_image }}
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.project.show', ['project' => $project->id]) }}"
-                                        class="btn btn-sm btn-primary btn-square"><i class="fas fa-eye"></i></a>
+                                    <button-container class="d-flex">
+
+                                        <a class="btn btn-warning  m-2"
+                                            href="{{ route('admin.project.edit', ['project' => $project['id']]) }}"> <i
+                                                class="fa-solid fa-pen-to-square"></i></a>
+                                        <form class=" m-2"
+                                            action="{{ route('admin.project.destroy', ['project' => $project['id']]) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('sei sicuro di voler eliminare il fumetto?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger"><i
+                                                    class="fa-solid fa-trash"></i></button>
+                                        </form>
+                                        <a href="{{ route('admin.project.show', ['project' => $project->id]) }}"
+                                            class="btn btn-primary m-2"><i class="fas fa-eye"></i></a>
+                                    </button-container>
                                 </td>
 
                             </tr>
