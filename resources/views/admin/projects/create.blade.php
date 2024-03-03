@@ -11,7 +11,7 @@
                     <h2 class="text-center">ADD NEW PROJECT</h2>
                 </div>
                 <div class="col-12">
-                    <form action="{{ route('admin.project.store') }}" method="POST">
+                    <form action="{{ route('admin.project.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @if ($errors->any())
                             <div class="alert alert-danger">
@@ -26,20 +26,22 @@
                         @endif
                         <div class="form-group my-3">
                             <label class="d-block" for="title">Title</label>
-                            <input type="text" id="title" name="title" placeholder="Project Name" required>
+                            <input type="text" id="title" name="title" placeholder="Project Name"
+                                value="{{ old('title') }}" required>
                         </div>
                         <div class="form-group my-3">
                             <label class="d-block" for="autore">Autore</label>
-                            <input type="text" id="autore" name="autore" placeholder="Autore" required>
+                            <input type="text" id="autore" name="autore" placeholder="Autore"
+                                value="{{ old('autore') }}" required>
                         </div>
                         <div class="form-group my-3">
                             <label class="d-block" for="thumb">Link Image</label>
-                            <input type="text" id="cover_image" name="cover_image" placeholder="Project Url">
+                            <input type="file" id="cover_image" name="cover_image" placeholder="Project Url">
                         </div>
                         <div class="form-group my-3">
 
                             <label class="d-block" for="content">Content</label>
-                            <textarea name="content" id="content" cols="100" rows="10" placeholder="decription"></textarea>
+                            <textarea name="content" id="content" cols="100" rows="10" placeholder="decription"> {{ old('content') }}</textarea>
                         </div>
                         <div class="form-group my-3">
                             <button class="btn btn-success" type="submit">Save</button>

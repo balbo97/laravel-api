@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -41,21 +42,30 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         
-
+        
         // recupero i dati inviati dalla form
         $form_data = $request->all();
 
         // creo una nuova istanza del model Project
-        $project = new Car();
+        $project = new Project();
 
         // riempio gli altri campi con la funzione fill()
         $project->fill($form_data);
+
+        // verifico se la richiesta contiene l'immagine 
+        if($request->hasFile('cover_image')){
+
+            $path = Storage::disk('public')->put('project_image', $form_data['cover_image']);
+
+            $form_data['cover_image'] = $path;
+            
+        };
 
         // salvo il record sul db
         $project->save();
 
         // effettuo il redirect alla view index
-        return redirect()->route('admin.projects.index');
+        return redirect()->route('admin.project.index');
        
     }
 
@@ -90,14 +100,37 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
+
+       
         // recupero i dati inviati dalla form
         $form_data = $request->all();
+
+        // controllo se il titolo è gia presente nll'elenco dei miei progetti 
+        $exists = Post::where('title', 'LIKE', $form_data['title'])->where('id', '!=', $project->id)->get();
+
+        if(count($exists) > 0){
+            $error_message = 'Hai gia utilizzato questo titole in un altro progetto';
+            return redirect()->route('admin.project.edit', compact('project', 'error_message'));
+        }
+
+        // controllo se nel form stanno mettendo il file image 
+        if($request->hasFile('cover_image')){
+
+            // controllo se il file aveva già un immagine in precedenza 
+            if($project->cover_image != null){
+                Storage::disk('public')->delete($project->cover_image);
+            }
+            $path = Storage::disk('public')->put('project_image', $form_data['cover_image']);
+                
+            $form_data['cover_image'] = $path;
+        }
+
 
         // riempio gli altri campi con la funzione fill()
         $project->update($form_data);
 
         // effettuo il redirect alla view index
-        return redirect()->route('admin.projects.index');
+        return redirect()->route('admin.project.index');
     }
 
     /**
@@ -108,7 +141,12 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        // controllo se il file aveva già un immagine in precedenza 
+        if($project->cover_image != null){
+            Storage::disk('public')->delete($project->cover_image);
+        }
+
         $project -> delete();
-        return redirect()->route('admin.projects.index');
+        return redirect()->route('admin.project.index');
     }
 }
