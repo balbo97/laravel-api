@@ -24,6 +24,7 @@
                             <th>AUTORE</th>
                             <th>CONTENUTO</th>
                             <th>SLUG</th>
+                            <th>CATEGORIA</th>
                             <th>COVER IMAGE</th>
                             <th>TOOLS</th>
                         </tr>
@@ -46,6 +47,9 @@
                                 </td>
                                 <td>
                                     {{ $project->slug }}
+                                </td>
+                                <td>
+                                    {{ $project->category ? $project->category->name : 'Senza categoria' }}
                                 </td>
                                 <td>
                                     {{ $project->cover_image }}

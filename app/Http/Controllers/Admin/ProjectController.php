@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+
 use App\Models\Project;
+use App\Models\Category;
 use App\Http\Controllers\Controller;
+
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,7 +21,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+       
+        // $projects = Project::all();
+        $projects = Project::orderBy('id', 'desc')->get();
 
         return view('admin.projects.index', compact('projects'));
     }
@@ -30,7 +35,10 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        //poichè voglio ciclare le categorie all'interno della view create, vado a recuperare tutte le categorie e le invio alla view 
+        $categories = Category::all();
+
+        return view('admin.projects.create', compact('categories'));
     }
 
     /**
@@ -88,7 +96,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        $categories = Category::all();
+        return view('admin.projects.edit', compact('project', 'categories'));
     }
 
     /**

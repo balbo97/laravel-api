@@ -23,7 +23,7 @@ class Project extends Model
     }
 
     public function category(){
-        return $this->belongTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
 }
