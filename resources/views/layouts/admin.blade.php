@@ -117,7 +117,15 @@
                                     <span class="ms-2">Post</span>
                                 </a>
                             </li>
-                        </ul>w
+                            <li class="nav-item">
+
+                                <a class="nav-link text-white {{ Route::currentRouteName() == 'admin.categories.index' ? 'bg-secondary' : '' }}"
+                                    href="{{ route('admin.categories.index') }}">
+                                    <i class="fa-solid fa-list fa-lg fa-fw"></i>
+                                    <span class="ms-2">Post</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </nav>
                 <main class="col-md-9 col-lg-10">

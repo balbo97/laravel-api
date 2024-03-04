@@ -12,6 +12,6 @@ class Category extends Model
     protected $fillable = ['name', 'slug'];
 
     public function projects(){
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Project::class);
     }
 }
