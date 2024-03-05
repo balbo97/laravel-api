@@ -22,6 +22,10 @@ class Project extends Model
         $this->attributes['slug'] = Str::slug($value);
     }
 
+    public function tecnology(){
+        return $this->belongsToMany(Tecnology::class);
+    }
+
     public function category(){
         return $this->belongsTo(Category::class);
     }
