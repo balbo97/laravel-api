@@ -44,6 +44,18 @@
                             </select>
                         </div>
                         <div class="form-group my-3">
+                            <label class="d-block control-label" for="tecnology_id">Seleziona Tecnologia</label>
+                            <div>
+                                @foreach ($tecnologies as $tecnology)
+                                    {
+                                    <input type="checkbox" name="tecnologies[]" id="{{ $tecnology->name }}"
+                                        class="form-check-input" value="{{ $tecnology->id }}" @checked(is_array(old('tecnologies')) && in_array($tecnology->id, old('tecnologies')))>
+                                    <label for="" class="form-check-label"> {{ $tecnology->name }} </label>
+                                    }
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="form-group my-3">
                             <label class="d-block" for="thumb">Link Image</label>
                             <input type="file" id="cover_image" name="cover_image" placeholder="Project Url">
                         </div>

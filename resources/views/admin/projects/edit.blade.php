@@ -36,6 +36,27 @@
                             <input type="text" id="autore" name="autore" placeholder="Autore" required>
                         </div>
                         <div class="form-group my-3">
+                            <label class="d-block control-label" for="category_id">Seleziona Categoria</label>
+                            <select name="category_id" id="category_id" class="form-select">
+                                <option value="">Seleziona Categoria</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group my-3">
+                            <label class="d-block control-label" for="tecnology_id">Seleziona Tecnologia</label>
+                            <div>
+                                @foreach ($tecnologies as $tecnology)
+                                    {
+                                    <input type="checkbox" name="tecnologies[]" id="{{ $tecnology->name }}"
+                                        class="form-check-input" value="{{ $tecnology->id }}" @checked(is_array(old('tecnologies')) && in_array($tecnology->id, old('tecnologies')))>
+                                    <label for="" class="form-check-label"> {{ $tecnology->name }} </label>
+                                    }
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="form-group my-3">
                             <label class="d-block" for="thumb">Link Image</label>
                             <input type="text" id="cover_image" name="cover_image" placeholder="Project Url">
                         </div>

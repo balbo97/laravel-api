@@ -22,7 +22,7 @@ class Project extends Model
         $this->attributes['slug'] = Str::slug($value);
     }
 
-    public function tecnology(){
+    public function tecnologies(){
         return $this->belongsToMany(Tecnology::class);
     }
 

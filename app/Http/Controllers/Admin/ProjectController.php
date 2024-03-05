@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateProjectRequest;
 
 use App\Models\Project;
 use App\Models\Category;
+use App\Models\Tecnology;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Str;
@@ -38,7 +39,10 @@ class ProjectController extends Controller
         //poichè voglio ciclare le categorie all'interno della view create, vado a recuperare tutte le categorie e le invio alla view 
         $categories = Category::all();
 
-        return view('admin.projects.create', compact('categories'));
+        //poichè voglio ciclare le tecnologie all'interno della view create, vado a recuperare tutte le tecnologie e le invio alla view 
+        $tecnologies = Tecnology::all();
+
+        return view('admin.projects.create', compact('categories', 'tecnologies'));
     }
 
     /**
@@ -69,8 +73,18 @@ class ProjectController extends Controller
             
         };
 
+
         // salvo il record sul db
         $project->save();
+
+        // vado a cotrollare se la request ha le tecnologies 
+        if($request->has('tecnologies')){
+            $project->tecnologies()->attach($form_data['tecnologies']);
+        }
+
+        if($request->has('tecnologies')){
+            $project->tecnologies()->sync($form_data['tecnologies']);
+        }
 
         // effettuo il redirect alla view index
         return redirect()->route('admin.project.index');
@@ -97,7 +111,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $categories = Category::all();
-        return view('admin.projects.edit', compact('project', 'categories'));
+        $tecnologies = Tecnology::all();
+        return view('admin.projects.edit', compact('project', 'categories', 'tecnologies'));
     }
 
     /**
@@ -115,7 +130,7 @@ class ProjectController extends Controller
         $form_data = $request->all();
 
         // controllo se il titolo è gia presente nll'elenco dei miei progetti 
-        $exists = Post::where('title', 'LIKE', $form_data['title'])->where('id', '!=', $project->id)->get();
+        $exists = Project::where('title', 'LIKE', $form_data['title'])->where('id', '!=', $project->id)->get();
 
         if(count($exists) > 0){
             $error_message = 'Hai gia utilizzato questo titole in un altro progetto';
