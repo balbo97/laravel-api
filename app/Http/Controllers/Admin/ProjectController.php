@@ -82,10 +82,6 @@ class ProjectController extends Controller
             $project->tecnologies()->attach($form_data['tecnologies']);
         }
 
-        if($request->has('tecnologies')){
-            $project->tecnologies()->sync($form_data['tecnologies']);
-        }
-
         // effettuo il redirect alla view index
         return redirect()->route('admin.project.index');
        
@@ -152,6 +148,11 @@ class ProjectController extends Controller
 
         // riempio gli altri campi con la funzione fill()
         $project->update($form_data);
+
+        // controllo che la request ha le tecnology ed li aggiungo o elimino dalla tabella ponte 
+        if ($request->has('tecnology')) {
+            $project->technologies()->sync($form_data['tecnology']);
+        }
 
         // effettuo il redirect alla view index
         return redirect()->route('admin.project.index');
