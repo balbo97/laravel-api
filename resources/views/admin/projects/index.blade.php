@@ -63,7 +63,7 @@
                                         <form class=" m-2"
                                             action="{{ route('admin.project.destroy', ['project' => $project['id']]) }}"
                                             method="POST"
-                                            onsubmit="return confirm('sei sicuro di voler eliminare il fumetto?')">
+                                            onsubmit="return confirm('sei sicuro di voler eliminare il progetto?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger"><i

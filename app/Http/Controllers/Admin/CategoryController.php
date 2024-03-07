@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 
+use Illuminate\Support\Str;
+
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Project;
@@ -31,7 +33,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('admin.categories.create', compact('categories'));
     }
 
     /**
@@ -42,7 +45,23 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        // recupero i dati dalla request 
+        $form_data = $request->all();
+
+        $category = new Category;
+
+        // definisco lo slug 
+        $slug = Str::slug($form_data['name'], '-');
+        $form_data['slug'] = $slug;
+
+        // riempio gli altri campi con la funzione fill()
+        $category->fill($form_data);
+
+        // salvo l'istanza 
+        $category->save();
+
+        // faccio redirect alla pagina index
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -64,7 +83,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -76,7 +95,25 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $form_data = $request->all();
+
+        // controllo che il nome sia unico 
+        $exists = Category::where('name', 'LIKE', $form_data['name'])->where('id', '!=', $category->id)->get();
+        if (count($exists) > 0) {
+            $error_message = 'La categoria selezionata è gia esistente!';
+            return redirect()->route('admin.categories.edit', ['category' =>  $category->slug], compact('error_message'));
+        }
+
+        // definisco lo slug
+        $slug = Str::slug($form_data['name'], '-');
+
+        $form_data['slug'] = $slug;
+
+        // riempio i campi con la funzione update 
+        $category->update($form_data);
+
+        // redirect alla pagina index 
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -87,6 +124,15 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        // $category->delete();
+        
+        // elimino tutte le relazioni con i progetti 
+        $category->projects()->delete();
+        
+        // elimino la categoria 
+        $category->delete();
+        
+        // reindirizzo alla index
+        return redirect()->route('admin.categories.index');
     }
 }

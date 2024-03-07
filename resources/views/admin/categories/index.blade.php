@@ -46,18 +46,19 @@
                                 <td>
                                     <button-container class="d-flex">
 
-                                        {{-- <a class="btn btn-warning  m-2"
-                                            href="{{ route('admin.project.edit', ['project' => $project['id']]) }}"> <i
+                                        <a class="btn btn-warning  m-2"
+                                            href="{{ route('admin.categories.edit', ['category' => $category['id']]) }}"> <i
                                                 class="fa-solid fa-pen-to-square"></i></a>
                                         <form class=" m-2"
-                                            action="{{ route('admin.project.destroy', ['project' => $project['id']]) }}"
+                                            action="{{ route('admin.categories.destroy', ['category' => $category['id']]) }}"
                                             method="POST"
-                                            onsubmit="return confirm('sei sicuro di voler eliminare il fumetto?')">
+                                            onsubmit="return confirm('sei sicuro di voler eliminare la categoria?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger"><i
                                                     class="fa-solid fa-trash"></i></button>
-                                        </form> --}}
+                                        </form>
+
                                         <a href="{{ route('admin.categories.show', ['category' => $category->id]) }}"
                                             class="btn btn-primary m-2"><i class="fas fa-eye"></i></a>
                                     </button-container>

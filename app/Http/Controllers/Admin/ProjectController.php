@@ -138,10 +138,14 @@ class ProjectController extends Controller
 
             // controllo se il file aveva già un immagine in precedenza 
             if($project->cover_image != null){
+
+                // se gia conteneva un immagine in precedenza la elimino
                 Storage::disk('public')->delete($project->cover_image);
             }
+
+            //recupero il path delle immagini caricate 
             $path = Storage::disk('public')->put('project_image', $form_data['cover_image']);
-                
+            //applico la variabile all'immagine     
             $form_data['cover_image'] = $path;
         }
 
@@ -150,8 +154,8 @@ class ProjectController extends Controller
         $project->update($form_data);
 
         // controllo che la request ha le tecnology ed li aggiungo o elimino dalla tabella ponte 
-        if ($request->has('tecnology')) {
-            $project->technologies()->sync($form_data['tecnology']);
+        if ($request->has('tecnologies')) {
+            $project->tecnologies()->sync($form_data['tecnologies']);
         }
 
         // effettuo il redirect alla view index
